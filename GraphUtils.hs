@@ -85,3 +85,6 @@ sMkGraph verts edges =
 
 sMkGraphN :: (Hashable a) => [a] -> [(a,a)] -> G.Gr a ()
 sMkGraphN vs es = sMkGraph vs $ map (\(x,y) -> (x,y,())) es
+
+sucH :: (Hashable a) => G.Gr a b -> a -> [a]
+sucH g a = map (fromJust . lab g) $ suc g (hash a)
