@@ -12,7 +12,7 @@
 
 module Main where
 import System.Environment
-import Control.Lens
+import Control.Lens hiding ((|>))
 import Control.Monad
 import qualified Data.List as L
 import qualified Data.Map.Strict as M
@@ -21,7 +21,7 @@ import Data.Maybe
 import Data.Char
 import qualified Data.Set as S
 import Data.Array
---https://github.com/holdenlee/haskell-utilities
+--https://github.com/holdenlee/gcj-utils
 
 import Utilities
 import ParseUtilities

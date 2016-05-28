@@ -20,7 +20,7 @@ import Data.Maybe
 import Data.Char
 import qualified Data.Set as S
 import Data.Array
--- https://github.com/holdenlee/haskell-utilities
+-- https://github.com/holdenlee/gcj-utils
 
 import Utilities
 import ParseUtilities
