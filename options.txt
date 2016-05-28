@@ -1,0 +1,9 @@
+{-# OPTIONS
+ 
+ -XMultiParamTypeClasses
+ -XFunctionalDependencies
+ -XFlexibleInstances
+ -XRank2Types
+ -XGADTs
+ -XPolyKinds
+#-}
