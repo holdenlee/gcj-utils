@@ -223,10 +223,10 @@ zemap :: ((Int,a)->b) -> [a] -> [b]
 zemap f li = map f (zenumerate li)
 
 imap :: (Int -> a -> b) -> [a] -> [b]
-imap f li = zipWith [1..] li
+imap f li = zipWith f [1..] li
 
 zimap :: (Int -> a -> b) -> [a] -> [b]
-zimap f li = zipWith [0..] li
+zimap f li = zipWith f [0..] li
 
 keepi :: (Int -> Bool) -> [a] -> [a]
 keepi f li = map snd (filter (f.fst) (enumerate li))
