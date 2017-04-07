@@ -13,7 +13,6 @@ import System.Environment
 import Control.Monad
 import Data.Tree
 import Data.List
-import qualified Data.Set as S
 import qualified Data.Map.Strict as Map
 import qualified Data.Hashable
 import Data.Either
@@ -34,10 +33,6 @@ c3 :: (d -> e) -> (a -> b -> c -> d) -> (a -> b -> c -> e)
 c3 f g x y z = f $ g x y z
 --or: c3 f g = ((f .) .) . ((g .) .)
 --or (point-free): (.).(.).(.)
-
-if' :: Bool -> a -> a -> a
-if' True  x _ = x
-if' False _ y = y
 
 doIf :: Bool -> (a -> a) -> (a -> a)
 doIf p f = (\x -> if p then f x else x)
@@ -207,6 +202,12 @@ emap f li = map f (enumerate li)
 zemap :: ((Int,a)->b) -> [a] -> [b]
 zemap f li = map f (zenumerate li)
 
+imap :: (Int -> a -> b) -> [a] -> [b]
+imap f li = zipWith [1..] li
+
+zimap :: (Int -> a -> b) -> [a] -> [b]
+zimap f li = zipWith [0..] li
+
 keepi :: (Int -> Bool) -> [a] -> [a]
 keepi f li = map snd (filter (f.fst) (enumerate li))
 
@@ -250,11 +251,3 @@ clamp lo hi x
     | x > hi    = hi
     | x < lo    = lo
     | otherwise = x
-
---http://stackoverflow.com/questions/16108714/haskell-removing-duplicates-from-a-list
-rmdups :: Ord a => [a] -> [a]
-rmdups = rmdups' S.empty where
-  rmdups' _ [] = []
-  rmdups' a (b : c) = if S.member b a
-    then rmdups' a c
-    else b : rmdups' (S.insert b a) c
