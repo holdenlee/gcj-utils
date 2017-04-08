@@ -117,12 +117,15 @@ emptyH = (line >>)
 readH :: (Int -> Int) -> Parser a -> Parser (Int, [a])
 readH f p = do
   i <- int
-  newline
-{-  ps <- sepEndBy p newline-}
-  p0 <- p
-  ps <- replicateM ((f i) - 1) (newline >> p)
-  --replicateM ((f i) - 1) (newline >> p)
-  return (i, p0:ps)
+  {-  ps <- sepEndBy p newline-}
+  if (f i <= 0)
+    then return (i, [])
+    else do
+      newline
+      p0 <- p
+      ps <- replicateM ((f i) - 1) (newline >> p)
+      --replicateM ((f i) - 1) (newline >> p)
+      return (i, p0:ps)
 
 readH_ :: (Int -> Int) -> Parser a -> Parser [a]
 readH_ = fmap snd `c2` readH
@@ -134,11 +137,14 @@ readN_ = readH_ id
 readH' :: (a -> Int) -> Parser a -> Parser b -> Parser (a, [b])
 readH' f ph p = do
   i <- ph
-  newline
-  p0 <- p
-  ps <- count ((f i) - 1) (newline >> p) 
-  --replicateM ((f i) - 1) (newline >> p)
-  return (i, p0:ps)
+  if (f i <= 0) 
+    then return (i, [])
+    else do
+      newline
+      p0 <- p
+      ps <- count ((f i) - 1) (newline >> p) 
+      --replicateM ((f i) - 1) (newline >> p)
+      return (i, p0:ps)
 
 readH'_ = fmap snd `c3` readH'
 
