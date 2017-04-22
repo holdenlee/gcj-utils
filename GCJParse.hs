@@ -52,6 +52,7 @@ type family Extract a :: * where
   Extract (Parser a, Parser b, Parser c) = (a,b,c)
   Extract (Parser a, Parser b, Parser c, Parser d) = (a,b,c,d)
   Extract (Parser a, Parser b, Parser c, Parser d, Parser e) = (a,b,c,d,e)
+  Extract (Parser a, Parser b, Parser c, Parser d, Parser e, Parser f) = (a,b,c,d,e, f)
 
 class IsPTuple t where
   tuple :: Parser x -> t -> Parser (Extract t)
@@ -101,6 +102,21 @@ instance IsPTuple (Parser a,Parser b, Parser c, Parser d, Parser e) where
       p
       e <- pe
       return (a,b,c,d,e)
+
+instance IsPTuple (Parser a,Parser b, Parser c, Parser d, Parser e, Parser f) where
+  tuple p (pa,pb,pc,pd,pe, pf) = do
+      a <- pa
+      p
+      b <- pb
+      p
+      c <- pc
+      p
+      d <- pd
+      p
+      e <- pe
+      p
+      f <- pf
+      return (a,b,c,d,e, f)
 
 list :: Parser x -> Parser a -> Parser [a]
 list = flip sepEndBy

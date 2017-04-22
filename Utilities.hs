@@ -22,6 +22,28 @@ import Data.Maybe
 import Debug.Trace
 import Prelude -- necessary for Hint.
 
+-- * Arithmetic
+
+cdiv :: (Integral a) => a -> a -> a
+cdiv x a = let (q,r) = x `divMod` a 
+           in if r>0 then q+1 else q
+
+fdiv :: (Integral a) => a -> a -> a
+fdiv x a = 
+    let
+        (q,r) = x `divMod` a
+    in
+      if r==0 then q-1 else q
+
+qsolve :: (Floating a) => a -> a -> a -> a
+qsolve a b c = 
+    let
+        d = (b^2 - 4*a*c)
+    in
+      (-b + (sqrt d)) / (2*a)
+--(-b + sqrt (b^2 - 4*a*c))/(2*a)
+
+
 -- * Function combinators
 
 infixr 0 `c2`
@@ -257,6 +279,11 @@ rmdups = rmdups' S.empty where
 
 -- * Maybes and Eithers
 
+showM :: (Show a) => Maybe a -> String
+showM = \case
+        Nothing -> "IMPOSSIBLE"
+        Just x -> show x
+
 tryDo :: (a -> Maybe a) -> a -> a
 tryDo f x = case f x of
              Nothing -> x
@@ -287,6 +314,8 @@ fromRight = fromJust . maybeRight
 debug = flip trace
 
 debugShow x = trace (show x) x
+
+debugShowWith s x = trace (s++" : "++(show x)) x
 
 debugSummary x f = trace (show (f x)) x
 
